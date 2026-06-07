@@ -2,22 +2,6 @@ from pathlib import Path
 from urllib.parse import quote_plus
 
 import streamlit as st
-from streamlit.errors import StreamlitAPIException
-
-
-def aller_au_questionnaire() -> None:
-    candidats = [
-        "test.py",
-        "Test",
-        "Satisfaction - Tissus d'Afrique & memoires tissees",
-    ]
-    for cible in candidats:
-        try:
-            st.switch_page(cible)
-            return
-        except StreamlitAPIException:
-            continue
-    st.error("Retour impossible pour le moment. Redemarrez l'application Streamlit.")
 
 st.set_page_config(
     page_title="Affiche & QR",
@@ -26,15 +10,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-with st.sidebar:
-    st.markdown("### Navigation")
-    if st.button("Questionnaire", use_container_width=True):
-        aller_au_questionnaire()
-    st.button("Affiche + QR", use_container_width=True, disabled=True)
-
 # URL du site a ouvrir via QR code.
 # Remplacez cette valeur par l'URL finale de votre site si besoin.
-SITE_URL = "http://localhost:8501"
+SITE_URL = "https://app-website---memoirestissees-7pgqjgjtebe5onpzpccntj.streamlit.app/"
 
 
 def trouver_image_evenement() -> Path | None:
@@ -59,6 +37,14 @@ st.markdown(
             background: #0A0A0A;
             border-right: 2px solid #B3001B;
         }
+        section[data-testid="stSidebarNav"]::before {
+            content: "Navigation";
+            display: block;
+            color: #FFFFFF;
+            font-size: 1.12rem;
+            font-weight: 700;
+            margin: 0 0 0.65rem 0;
+        }
         section[data-testid="stSidebar"] * {
             font-size: 1.08rem !important;
         }
@@ -75,9 +61,6 @@ st.markdown(
 if IMAGE_PATH is None:
     st.error("Image introuvable : ajoutez une image dans le dossier assets")
     st.stop()
-
-if st.button("Retour au questionnaire", key="retour_haut"):
-    aller_au_questionnaire()
 
 col_image, col_qr = st.columns([3, 2], gap="large")
 

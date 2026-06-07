@@ -6,7 +6,6 @@ from pathlib import Path
 from datetime import datetime
 
 import streamlit as st
-from streamlit.errors import StreamlitAPIException
 
 
 st.set_page_config(
@@ -15,27 +14,6 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed",
 )
-
-with st.sidebar:
-    st.markdown("### Navigation")
-    st.button("Questionnaire", use_container_width=True, disabled=True)
-    if st.button("Affiche + QR", use_container_width=True):
-        navigation_ok = False
-        candidats = [
-            "pages/affiche_qr.py",
-            "affiche_qr.py",
-            "Affiche Qr",
-            "Affiche & QR",
-        ]
-        for cible in candidats:
-            try:
-                st.switch_page(cible)
-                navigation_ok = True
-                break
-            except StreamlitAPIException:
-                continue
-        if not navigation_ok:
-            st.error("Navigation impossible pour le moment. Redémarrez l'application Streamlit.")
 
 
 def trouver_image_evenement() -> Path | None:
@@ -81,6 +59,15 @@ st.markdown(
         section[data-testid="stSidebar"] {
             background: #0A0A0A;
             border-right: 2px solid #B3001B;
+        }
+
+        section[data-testid="stSidebarNav"]::before {
+            content: "Navigation";
+            display: block;
+            color: #FFFFFF;
+            font-size: 1.12rem;
+            font-weight: 700;
+            margin: 0 0 0.65rem 0;
         }
 
         section[data-testid="stSidebar"] * {
