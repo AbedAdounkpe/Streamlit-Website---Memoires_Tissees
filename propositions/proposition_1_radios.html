@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Proposition 1 — Radios en liste</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Playfair+Display:wght@600;700&display=swap');
+
+  :root {
+    --rouge: #B3001B;
+    --noir: #000000;
+    --fond-carte: #050505;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--noir);
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    padding: 2rem 1rem;
+  }
+
+  .page { max-width: 820px; margin: 0 auto; }
+
+  .bloc-hero {
+    background: #000;
+    border: 2px solid var(--rouge);
+    border-radius: 20px;
+    padding: 1.6rem;
+    margin-bottom: 1.4rem;
+    box-shadow: 0 10px 24px rgba(179, 0, 27, 0.2);
+  }
+
+  .titre-principal {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .sous-titre { margin-top: .5rem; font-size: 1.05rem; color: #f2f2f2; }
+
+  .badge {
+    display: inline-block; margin-top: .85rem; margin-right: .45rem;
+    padding: .35rem .65rem; border-radius: 999px; background: #111;
+    border: 1px solid var(--rouge); font-size: .84rem; font-weight: 600;
+  }
+
+  .question {
+    background: var(--fond-carte);
+    border: 1px solid var(--rouge);
+    border-radius: 16px;
+    padding: 1.2rem 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .question > legend,
+  .question > .label {
+    font-weight: 700;
+    font-size: 1.08rem;
+    margin: 0 0 .9rem 0;
+    padding: 0;
+  }
+
+  .options { display: flex; flex-direction: column; gap: .55rem; }
+
+  .option {
+    display: flex; align-items: center; gap: .75rem;
+    padding: .7rem .9rem;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 120ms ease;
+  }
+
+  .option:hover { border-color: var(--rouge); background: #0e0e0e; }
+
+  .option input { accent-color: var(--rouge); width: 1.15rem; height: 1.15rem; }
+
+  .option input:checked + span { font-weight: 700; }
+
+  .option:has(input:checked) {
+    border-color: var(--rouge);
+    background: rgba(179, 0, 27, 0.12);
+  }
+
+  .bouton {
+    width: 100%; margin-top: .6rem;
+    background: var(--rouge); color: #fff; border: 0;
+    font-weight: 700; font-size: 1.05rem;
+    border-radius: 12px; padding: .9rem 1rem; cursor: pointer;
+  }
+
+  .bouton:hover { filter: brightness(1.08); }
+
+  .caption { color: #ededed; font-size: .9rem; margin-top: 1rem; text-align: center; }
+</style>
+</head>
+<body>
+  <div class="page">
+    <section class="bloc-hero">
+      <h1 class="titre-principal">Tissus d'Afrique &amp; mémoires tissées</h1>
+      <p class="sous-titre">Questionnaire de satisfaction — événement du 20 juin 2026 à Rouen.</p>
+      <span class="badge">Style 1 · Radios en liste</span>
+    </section>
+
+    <form>
+      <fieldset class="question">
+        <legend>1) Comment avez-vous connu l'événement&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q1" /><span>Réseaux sociaux</span></label>
+          <label class="option"><input type="radio" name="q1" /><span>Bouche-à-oreille</span></label>
+          <label class="option"><input type="radio" name="q1" /><span>Association</span></label>
+          <label class="option"><input type="radio" name="q1" /><span>Partenaire</span></label>
+          <label class="option"><input type="radio" name="q1" /><span>Presse / Média</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>2) Globalement, comment évaluez-vous votre expérience&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q2" /><span>1 étoile</span></label>
+          <label class="option"><input type="radio" name="q2" /><span>2 étoiles</span></label>
+          <label class="option"><input type="radio" name="q2" /><span>3 étoiles</span></label>
+          <label class="option"><input type="radio" name="q2" /><span>4 étoiles</span></label>
+          <label class="option"><input type="radio" name="q2" /><span>5 étoiles</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>3) Quel temps fort avez-vous le plus apprécié&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q3" /><span>Exposition</span></label>
+          <label class="option"><input type="radio" name="q3" /><span>Conférence-débat</span></label>
+          <label class="option"><input type="radio" name="q3" /><span>Défilé</span></label>
+          <label class="option"><input type="radio" name="q3" /><span>Danses traditionnelles</span></label>
+          <label class="option"><input type="radio" name="q3" /><span>Découverte culinaire</span></label>
+          <label class="option"><input type="radio" name="q3" /><span>Échanges avec les intervenants</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>4) Avez-vous appris de nouvelles choses sur les textiles africains&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q4" /><span>Oui, beaucoup</span></label>
+          <label class="option"><input type="radio" name="q4" /><span>Oui, un peu</span></label>
+          <label class="option"><input type="radio" name="q4" /><span>Pas vraiment</span></label>
+          <label class="option"><input type="radio" name="q4" /><span>Pas du tout</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>5) Portez-vous un regard différent sur les tissus traditionnels africains&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q5" /><span>Oui</span></label>
+          <label class="option"><input type="radio" name="q5" /><span>Non</span></label>
+          <label class="option"><input type="radio" name="q5" /><span>Je ne sais pas</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>6) L'événement a-t-il valorisé le patrimoine culturel béninois et africain&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q6" /><span>Tout à fait</span></label>
+          <label class="option"><input type="radio" name="q6" /><span>Plutôt oui</span></label>
+          <label class="option"><input type="radio" name="q6" /><span>Plutôt non</span></label>
+          <label class="option"><input type="radio" name="q6" /><span>Pas du tout</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>7) Recommanderiez-vous cet événement à votre entourage&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q7" /><span>Oui</span></label>
+          <label class="option"><input type="radio" name="q7" /><span>Non</span></label>
+        </div>
+      </fieldset>
+
+      <fieldset class="question">
+        <legend>8) Avez-vous des suggestions pour une prochaine édition&nbsp;?</legend>
+        <div class="options">
+          <label class="option"><input type="radio" name="q8" /><span>Ateliers pratiques</span></label>
+          <label class="option"><input type="radio" name="q8" /><span>Plus de temps d'échanges</span></label>
+          <label class="option"><input type="radio" name="q8" /><span>Programme sur plusieurs jours</span></label>
+          <label class="option"><input type="radio" name="q8" /><span>Davantage d'exposants</span></label>
+          <label class="option"><input type="radio" name="q8" /><span>Aucune suggestion</span></label>
+        </div>
+      </fieldset>
+
+      <button type="button" class="bouton">Envoyer mon avis</button>
+    </form>
+
+    <p class="caption">Association Mikwabo — Enquête de satisfaction · 20 juin 2026, Centre André Malraux, Rouen.</p>
+  </div>
+</body>
+</html>

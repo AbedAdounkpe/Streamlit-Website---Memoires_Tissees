@@ -173,6 +173,66 @@ st.markdown(
             border: 1px solid #B3001B !important;
         }
 
+        /* Choix en cartes cliquables (proposition 2) - tous sur une ligne */
+        div[role="radiogroup"] {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        div[role="radiogroup"] > label {
+            position: relative;
+            flex: 1 1 0;
+            min-width: 0;
+            min-height: 64px;
+            margin: 0 !important;
+            padding: 0.85rem 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            line-height: 1.2;
+            background: #0B0B0B;
+            border: 1.5px solid #2A2A2A;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 140ms ease;
+        }
+
+        /* Masque le rond radio natif, on garde juste le libellé */
+        div[role="radiogroup"] > label > div:first-child {
+            display: none !important;
+        }
+
+        div[role="radiogroup"] > label > div:last-child {
+            margin: 0 !important;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        div[role="radiogroup"] > label:hover {
+            border-color: #B3001B;
+            transform: translateY(-2px);
+        }
+
+        div[role="radiogroup"] > label:has(input:checked) {
+            border-color: #B3001B;
+            background: linear-gradient(180deg, rgba(179, 0, 27, 0.28), rgba(179, 0, 27, 0.10));
+            box-shadow: 0 6px 16px rgba(179, 0, 27, 0.35);
+        }
+
+        div[role="radiogroup"] > label:has(input:checked)::after {
+            content: "\2713";
+            position: absolute;
+            top: 6px;
+            right: 9px;
+            color: #FFFFFF;
+            font-weight: 800;
+            font-size: 0.95rem;
+        }
+
         @media (max-width: 992px) {
             .image-flottante {
                 position: static;
@@ -225,7 +285,7 @@ with col_droite:
     with st.form("formulaire_satisfaction"):
         st.subheader("Questionnaire de satisfaction")
 
-        q1_canal = st.selectbox(
+        q1_canal = st.radio(
             "1) Comment avez-vous connu l'événement ?",
             [
                 "Réseaux sociaux",
@@ -233,16 +293,12 @@ with col_droite:
                 "Association",
                 "Partenaire",
                 "Presse / Media",
-                "Autre",
             ],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q1_autre = ""
-        if q1_canal == "Autre":
-            q1_autre = st.text_input("Précisez le canal")
 
-        q2_experience = st.selectbox(
+        q2_experience = st.radio(
             "2) Globalement, comment évaluez-vous votre expérience ?",
             [
                 "1 étoile",
@@ -250,16 +306,12 @@ with col_droite:
                 "3 étoiles",
                 "4 étoiles",
                 "5 étoiles",
-                "Autre",
             ],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q2_autre = ""
-        if q2_experience == "Autre":
-            q2_autre = st.text_input("Précisez votre évaluation globale")
 
-        q3_temps_forts = st.selectbox(
+        q3_temps_forts = st.radio(
             "3) Quel temps fort avez-vous le plus apprécié ?",
             [
                 "Exposition",
@@ -268,56 +320,40 @@ with col_droite:
                 "Danses traditionnelles",
                 "Découverte culinaire",
                 "Échanges avec les intervenants",
-                "Autre",
             ],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q3_autre = ""
-        if q3_temps_forts == "Autre":
-            q3_autre = st.text_input("Précisez le temps fort")
 
-        q4_apprentissage = st.selectbox(
+        q4_apprentissage = st.radio(
             "4) Pensez-vous avoir découvert ou appris de nouvelles choses sur les textiles africains ?",
-            ["Oui, beaucoup", "Oui, un peu", "Pas vraiment", "Pas du tout", "Autre"],
+            ["Oui, beaucoup", "Oui, un peu", "Pas vraiment", "Pas du tout"],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q4_autre = ""
-        if q4_apprentissage == "Autre":
-            q4_autre = st.text_input("Précisez votre réponse")
 
-        q5_regard = st.selectbox(
+        q5_regard = st.radio(
             "5) Après cet événement, portez-vous un regard différent sur les tissus traditionnels africains ?",
-            ["Oui", "Non", "Je ne sais pas", "Autre"],
+            ["Oui", "Non", "Je ne sais pas"],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q5_autre = ""
-        if q5_regard == "Autre":
-            q5_autre = st.text_input("Précisez votre réponse ", key="q5_autre")
 
-        q6_valorisation = st.selectbox(
+        q6_valorisation = st.radio(
             "6) Selon vous, l'événement a-t-il permis de mieux valoriser le patrimoine culturel béninois et africain ?",
-            ["Tout à fait", "Plutôt oui", "Plutôt non", "Pas du tout", "Autre"],
+            ["Tout à fait", "Plutôt oui", "Plutôt non", "Pas du tout"],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q6_autre = ""
-        if q6_valorisation == "Autre":
-            q6_autre = st.text_input("Précisez votre réponse", key="q6_autre")
 
-        q7_recommandation = st.selectbox(
+        q7_recommandation = st.radio(
             "7) Recommanderiez-vous cet événement à votre entourage ?",
-            ["Oui", "Non", "Autre"],
+            ["Oui", "Non"],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q7_autre = ""
-        if q7_recommandation == "Autre":
-            q7_autre = st.text_input("Précisez votre réponse", key="q7_autre")
 
-        q8_suggestions = st.selectbox(
+        q8_suggestions = st.radio(
             "8) Avez-vous des suggestions pour une prochaine édition ?",
             [
                 "Ateliers pratiques",
@@ -325,17 +361,10 @@ with col_droite:
                 "Programme sur plusieurs jours",
                 "Davantage d'exposants",
                 "Aucune suggestion",
-                "Autre",
             ],
             index=None,
-            placeholder="Choisissez une option",
+            horizontal=True,
         )
-        q8_autre = ""
-        if q8_suggestions == "Autre":
-            q8_autre = st.text_area(
-                "Précisez votre suggestion",
-                placeholder="Vos idées, propositions et recommandations...",
-            )
 
         consentement = st.checkbox(
             "J'accepte que mes réponses soient utilisées de manière anonyme pour améliorer l'événement.",
@@ -357,21 +386,9 @@ with col_droite:
             q7_recommandation,
             q8_suggestions,
         ]
-        autres_a_completer = [
-            (q1_canal, q1_autre),
-            (q2_experience, q2_autre),
-            (q3_temps_forts, q3_autre),
-            (q4_apprentissage, q4_autre),
-            (q5_regard, q5_autre),
-            (q6_valorisation, q6_autre),
-            (q7_recommandation, q7_autre),
-            (q8_suggestions, q8_autre),
-        ]
 
         if any(reponse is None for reponse in reponses_principales):
             st.error("Merci de répondre à toutes les questions avant l'envoi.")
-        elif any(reponse == "Autre" and not texte.strip() for reponse, texte in autres_a_completer):
-            st.error("Merci de préciser chaque réponse marquée 'Autre'.")
         elif not consentement:
             st.error("Merci d'accepter l'utilisation anonyme des réponses pour valider l'envoi.")
         else:
@@ -399,21 +416,13 @@ with col_droite:
             donnees = {
                 "horodatage": datetime.now().isoformat(timespec="seconds"),
                 "q1_canal_connaissance": q1_canal,
-                "q1_autre_precision": q1_autre,
                 "q2_experience": q2_experience,
-                "q2_autre_precision": q2_autre,
                 "q3_temps_forts": q3_temps_forts,
-                "q3_autre_precision": q3_autre,
                 "q4_apprentissage_textiles": q4_apprentissage,
-                "q4_autre_precision": q4_autre,
                 "q5_regard_different": q5_regard,
-                "q5_autre_precision": q5_autre,
                 "q6_valorisation_patrimoine": q6_valorisation,
-                "q6_autre_precision": q6_autre,
                 "q7_recommandation": q7_recommandation,
-                "q7_autre_precision": q7_autre,
                 "q8_suggestions": q8_suggestions,
-                "q8_autre_precision": q8_autre,
                 "consentement": consentement,
                 "score_global_5": score_numerique if score_numerique is not None else "Personnalise",
                 "score_global_100": round(score_numerique / 5 * 100, 1) if score_numerique is not None else "N/A",
