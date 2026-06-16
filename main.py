@@ -5,6 +5,7 @@ from pathlib import Path
 from datetime import datetime
 
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 def enregistrer_dans_google_sheets(donnees: dict) -> bool:
@@ -322,6 +323,21 @@ st.markdown(
 
 col_gauche, col_droite = st.columns([35, 65], gap="large", vertical_alignment="top")
 
+if st.session_state.pop("revenir_en_haut", False):
+    components.html(
+        """
+        <script>
+            const doc = window.parent.document;
+            const conteneur = doc.querySelector('section.main')
+                || doc.querySelector('[data-testid="stMain"]')
+                || doc.scrollingElement;
+            if (conteneur) { conteneur.scrollTo({ top: 0, behavior: 'smooth' }); }
+            window.parent.scrollTo({ top: 0, behavior: 'smooth' });
+        </script>
+        """,
+        height=0,
+    )
+
 with col_gauche:
     if image_evenement is not None:
         data_uri_image = image_vers_data_uri(image_evenement)
@@ -458,6 +474,7 @@ with col_droite:
                 "envoi_effectue",
             ):
                 st.session_state.pop(cle, None)
+            st.session_state["revenir_en_haut"] = True
             st.rerun()
     elif soumis:
         questions_manquantes = [
