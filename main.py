@@ -157,13 +157,11 @@ st.markdown(
         }
 
         .bloc-hero {
-            background: #000000;
-            border: 2px solid #B3001B;
-            border-radius: 20px;
-            padding: 1.4rem 1.6rem;
+            background: transparent;
+            border: none;
+            padding: 0;
             margin-top: 0;
             margin-bottom: 1rem;
-            box-shadow: 0 10px 24px rgba(179, 0, 27, 0.2);
         }
 
         .titre-principal {
@@ -172,6 +170,7 @@ st.markdown(
             line-height: 1.1;
             margin: 0;
             color: #FFFFFF;
+            text-align: center;
         }
 
         .sous-titre {
@@ -375,9 +374,6 @@ with col_droite:
         """
         <section class="bloc-hero">
             <h1 class="titre-principal">Tissus d'Afrique & mémoires tissées</h1>
-            <p class="sous-titre">
-                Questionnaire de satisfaction de l'événement du 20 juin 2026 à Rouen.
-            </p>
             <span class="badge">Patrimoines textiles africains</span>
             <span class="badge">Conférence-débat</span>
             <span class="badge">Performances artistiques</span>
@@ -392,8 +388,6 @@ with col_droite:
     )
 
     st.markdown('<div class="bloc-formulaire">', unsafe_allow_html=True)
-
-    st.subheader("Questionnaire de satisfaction")
 
     version_formulaire = st.session_state.get("version_formulaire", 0)
 
