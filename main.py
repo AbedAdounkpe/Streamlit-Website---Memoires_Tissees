@@ -441,11 +441,25 @@ with col_droite:
         unsafe_allow_html=True,
     )
 
-    soumis = st.button("Envoyer mon avis")
+    deja_envoye = st.session_state.get("envoi_effectue", False)
+    soumis = st.button("Envoyer mon avis", disabled=deja_envoye)
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-    if soumis:
+    if deja_envoye:
+        st.success("Merci ! Votre avis a bien été enregistré.")
+        if st.button("Répondre à nouveau"):
+            for cle in (
+                "q1_canal",
+                "q2_experience",
+                "q3_temps_forts",
+                "q4_apprentissage",
+                "q5_regard",
+                "envoi_effectue",
+            ):
+                st.session_state.pop(cle, None)
+            st.rerun()
+    elif soumis:
         questions_manquantes = [
             index + 1
             for index, reponse in enumerate(reponses_principales)
@@ -463,8 +477,6 @@ with col_droite:
                 )
                 st.error(f"Merci de répondre aux questions : {liste_manquantes}.")
         else:
-            st.success("Merci ! Votre avis a bien été enregistré.")
-
             donnees = {
                 "horodatage": datetime.now().isoformat(timespec="seconds"),
                 "q1_canal_connaissance": q1_canal,
@@ -476,6 +488,9 @@ with col_droite:
 
             if not enregistrer_dans_google_sheets(donnees):
                 enregistrer_dans_csv_local(donnees)
+
+            st.session_state.envoi_effectue = True
+            st.rerun()
 
     st.caption(
         "Association Mikwabo - Enquête de satisfaction de l'événement du 20 juin 2026, Centre André Malraux, Rouen."
