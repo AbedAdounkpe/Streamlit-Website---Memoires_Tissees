@@ -301,7 +301,7 @@ st.markdown(
         }
 
         div[role="radiogroup"] > label:has(input:checked)::after {
-            content: "\2713";
+            content: "✓";
             position: absolute;
             top: 6px;
             right: 9px;
