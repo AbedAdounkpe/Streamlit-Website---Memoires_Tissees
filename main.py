@@ -199,6 +199,14 @@ st.markdown(
             padding: 1.2rem;
         }
 
+        .titre-questions {
+            margin: 0 0 1rem 0;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
         .image-flottante {
             position: sticky;
             top: 0;
@@ -387,7 +395,10 @@ with col_droite:
         "Merci d'avoir participé à cette journée. Votre avis est précieux et nous aidera à améliorer nos futurs projets."
     )
 
-    st.markdown('<div class="bloc-formulaire">', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="bloc-formulaire"><h2 class="titre-questions">Questions</h2>',
+        unsafe_allow_html=True,
+    )
 
     version_formulaire = st.session_state.get("version_formulaire", 0)
 
