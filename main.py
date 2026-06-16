@@ -465,7 +465,7 @@ with col_droite:
                 "q8_suggestions": q8_suggestions,
             }
 
-            fichier_reponses = Path("reponses") / "reponses_satisfaction.csv"
+            fichier_reponses = Path(__file__).resolve().parent / "reponses" / "reponses_satisfaction.csv"
             fichier_reponses.parent.mkdir(parents=True, exist_ok=True)
             fichier_existe = fichier_reponses.exists()
             with fichier_reponses.open("a", newline="", encoding="utf-8-sig") as flux:
