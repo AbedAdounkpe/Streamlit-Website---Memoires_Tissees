@@ -180,14 +180,15 @@ st.markdown(
             flex-wrap: nowrap;
             gap: 0.6rem;
             margin-top: 0.4rem;
+            width: 100%;
         }
 
         div[role="radiogroup"] > label {
             position: relative;
             width: 100%;
-            min-height: 56px;
+            height: 56px;
             margin: 0 !important;
-            padding: 0.85rem 1rem;
+            padding: 0.5rem 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
