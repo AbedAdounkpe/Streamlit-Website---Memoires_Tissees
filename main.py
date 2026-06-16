@@ -199,23 +199,6 @@ st.markdown(
             padding: 1.2rem;
         }
 
-        h2.titre-questions {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: fit-content;
-            margin: 0 auto 1rem auto !important;
-            padding: 0.4rem 1rem !important;
-            border: 1px solid #B3001B;
-            border-radius: 12px;
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem !important;
-            font-weight: 600;
-            line-height: 1.3;
-            color: #FFFFFF;
-            text-align: center;
-        }
-
         .image-flottante {
             position: sticky;
             top: 0;
@@ -404,10 +387,7 @@ with col_droite:
         "Merci d'avoir participé à cette journée. Votre avis est précieux et nous aidera à améliorer nos futurs projets."
     )
 
-    st.markdown(
-        '<div class="bloc-formulaire"><h2 class="titre-questions">Questions</h2>',
-        unsafe_allow_html=True,
-    )
+    st.markdown('<div class="bloc-formulaire">', unsafe_allow_html=True)
 
     version_formulaire = st.session_state.get("version_formulaire", 0)
 
