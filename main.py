@@ -173,9 +173,10 @@ st.markdown(
             border: 1px solid #B3001B !important;
         }
 
-        /* Choix en cartes cliquables (proposition 2) - tous sur une ligne */
+        /* Choix en cartes cliquables (proposition 2) - une carte par ligne */
         div[role="radiogroup"] {
             display: flex;
+            flex-direction: column;
             flex-wrap: nowrap;
             gap: 0.6rem;
             margin-top: 0.4rem;
@@ -183,11 +184,10 @@ st.markdown(
 
         div[role="radiogroup"] > label {
             position: relative;
-            flex: 1 1 0;
-            min-width: 0;
-            min-height: 64px;
+            width: 100%;
+            min-height: 56px;
             margin: 0 !important;
-            padding: 0.85rem 0.7rem;
+            padding: 0.85rem 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
