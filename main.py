@@ -7,6 +7,45 @@ from datetime import datetime
 import streamlit as st
 
 
+def enregistrer_dans_google_sheets(donnees: dict) -> bool:
+    """Ajoute une ligne dans le Google Sheet configure via st.secrets.
+
+    Retourne True si l'enregistrement a reussi, False sinon (secrets absents
+    ou erreur), afin de permettre un repli sur le CSV local.
+    """
+    if "gcp_service_account" not in st.secrets or "google_sheet" not in st.secrets:
+        return False
+    try:
+        import gspread
+
+        client = gspread.service_account_from_dict(dict(st.secrets["gcp_service_account"]))
+        config = st.secrets["google_sheet"]
+        classeur = client.open_by_key(config["sheet_id"])
+        feuille = classeur.worksheet(config.get("worksheet", "Feuille 1"))
+
+        if not feuille.row_values(1):
+            feuille.append_row(list(donnees.keys()), value_input_option="USER_ENTERED")
+        feuille.append_row(
+            [str(valeur) for valeur in donnees.values()],
+            value_input_option="USER_ENTERED",
+        )
+        return True
+    except Exception as erreur:  # noqa: BLE001 - on veut un repli robuste
+        st.warning(f"Enregistrement Google Sheets indisponible, sauvegarde locale utilisee. ({erreur})")
+        return False
+
+
+def enregistrer_dans_csv_local(donnees: dict) -> None:
+    fichier_reponses = Path(__file__).resolve().parent / "reponses" / "reponses_satisfaction.csv"
+    fichier_reponses.parent.mkdir(parents=True, exist_ok=True)
+    fichier_existe = fichier_reponses.exists()
+    with fichier_reponses.open("a", newline="", encoding="utf-8-sig") as flux:
+        writer = csv.DictWriter(flux, fieldnames=list(donnees.keys()))
+        if not fichier_existe:
+            writer.writeheader()
+        writer.writerow(donnees)
+
+
 st.set_page_config(
     page_title="Satisfaction - Tissus d'Afrique & mémoires tissées",
     page_icon="🧵",
@@ -51,14 +90,20 @@ st.markdown(
         }
 
         .block-container {
-            padding-top: 1.6rem;
+            padding-top: 5.5rem;
             padding-bottom: 1rem;
+        }
+
+        /* Bandeau noir en haut + barre Streamlit opaque pour ne rien masquer */
+        header[data-testid="stHeader"] {
+            background: #000000;
+            height: 2cm;
         }
 
         /* Barre de progression flottante en haut du site */
         .barre-progression-fixe {
             position: fixed;
-            top: 0;
+            top: 2cm;
             left: 0;
             width: 100%;
             height: 28px;
@@ -465,18 +510,8 @@ with col_droite:
                 "q8_suggestions": q8_suggestions,
             }
 
-            fichier_reponses = Path(__file__).resolve().parent / "reponses" / "reponses_satisfaction.csv"
-            fichier_reponses.parent.mkdir(parents=True, exist_ok=True)
-            fichier_existe = fichier_reponses.exists()
-            with fichier_reponses.open("a", newline="", encoding="utf-8-sig") as flux:
-                writer = csv.DictWriter(flux, fieldnames=list(donnees.keys()))
-                if not fichier_existe:
-                    writer.writeheader()
-                writer.writerow(donnees)
-
-            st.caption(
-                f"Réponse enregistrée automatiquement dans « {fichier_reponses.as_posix()} »."
-            )
+            if not enregistrer_dans_google_sheets(donnees):
+                enregistrer_dans_csv_local(donnees)
 
     st.caption(
         "Association Mikwabo - Enquête de satisfaction de l'événement du 20 juin 2026, Centre André Malraux, Rouen."
