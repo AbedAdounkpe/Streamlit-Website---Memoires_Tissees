@@ -194,15 +194,20 @@ st.markdown(
 
         .bloc-formulaire {
             background: #050505;
-            border: 1px solid #B3001B;
+            border: none;
             border-radius: 18px;
             padding: 1.2rem;
         }
 
         .titre-questions {
-            margin: 0 0 1rem 0;
+            display: block;
+            width: fit-content;
+            margin: 0 auto 1rem auto;
+            padding: 0.4rem 1rem;
+            border: 1px solid #B3001B;
+            border-radius: 12px;
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1rem;
             color: #FFFFFF;
             text-align: center;
         }
