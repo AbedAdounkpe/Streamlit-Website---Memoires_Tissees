@@ -199,15 +199,19 @@ st.markdown(
             padding: 1.2rem;
         }
 
-        .titre-questions {
-            display: block;
+        h2.titre-questions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             width: fit-content;
-            margin: 0 auto 1rem auto;
-            padding: 0.4rem 1rem;
+            margin: 0 auto 1rem auto !important;
+            padding: 0.4rem 1rem !important;
             border: 1px solid #B3001B;
             border-radius: 12px;
             font-family: 'Playfair Display', serif;
-            font-size: 1rem;
+            font-size: 1rem !important;
+            font-weight: 600;
+            line-height: 1.3;
             color: #FFFFFF;
             text-align: center;
         }
