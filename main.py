@@ -251,18 +251,36 @@ st.markdown(
         }
 
         /* Choix en cartes cliquables (proposition 2) - une carte par ligne */
+        div[data-testid="stElementContainer"]:has(div[role="radiogroup"]) {
+            width: 100% !important;
+        }
+
+        div[data-testid="stRadio"] {
+            width: 100% !important;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        div[data-testid="stRadio"] > div {
+            width: 100% !important;
+        }
+
         div[role="radiogroup"] {
             display: flex;
             flex-direction: column;
             flex-wrap: nowrap;
+            align-items: stretch;
             gap: 0.6rem;
             margin-top: 0.4rem;
-            width: 100%;
+            width: 100% !important;
         }
 
         div[role="radiogroup"] > label {
             position: relative;
-            width: 100%;
+            width: 100% !important;
+            max-width: none;
+            box-sizing: border-box;
             height: 56px;
             margin: 0 !important;
             padding: 0.5rem 1rem;
@@ -377,6 +395,8 @@ with col_droite:
 
     st.subheader("Questionnaire de satisfaction")
 
+    version_formulaire = st.session_state.get("version_formulaire", 0)
+
     q1_canal = st.radio(
         "1) Comment avez-vous connu l'événement ?",
         [
@@ -388,7 +408,7 @@ with col_droite:
         ],
         index=None,
         horizontal=True,
-        key="q1_canal",
+        key=f"q1_canal_{version_formulaire}",
     )
 
     q2_experience = st.radio(
@@ -402,7 +422,7 @@ with col_droite:
         ],
         index=None,
         horizontal=True,
-        key="q2_experience",
+        key=f"q2_experience_{version_formulaire}",
     )
 
     q3_temps_forts = st.radio(
@@ -417,7 +437,7 @@ with col_droite:
         ],
         index=None,
         horizontal=True,
-        key="q3_temps_forts",
+        key=f"q3_temps_forts_{version_formulaire}",
     )
 
     q4_apprentissage = st.radio(
@@ -425,7 +445,7 @@ with col_droite:
         ["Oui, beaucoup", "Oui, un peu", "Pas vraiment", "Pas du tout"],
         index=None,
         horizontal=True,
-        key="q4_apprentissage",
+        key=f"q4_apprentissage_{version_formulaire}",
     )
 
     q5_regard = st.radio(
@@ -433,7 +453,7 @@ with col_droite:
         ["Oui", "Non", "Je ne sais pas"],
         index=None,
         horizontal=True,
-        key="q5_regard",
+        key=f"q5_regard_{version_formulaire}",
     )
 
     reponses_principales = [
@@ -465,15 +485,10 @@ with col_droite:
     if deja_envoye:
         st.success("Merci ! Votre avis a bien été enregistré.")
         if st.button("Répondre à nouveau"):
-            for cle in (
-                "q1_canal",
-                "q2_experience",
-                "q3_temps_forts",
-                "q4_apprentissage",
-                "q5_regard",
-                "envoi_effectue",
-            ):
-                st.session_state.pop(cle, None)
+            st.session_state["version_formulaire"] = (
+                st.session_state.get("version_formulaire", 0) + 1
+            )
+            st.session_state.pop("envoi_effectue", None)
             st.session_state["revenir_en_haut"] = True
             st.rerun()
     elif soumis:
