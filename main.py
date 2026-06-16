@@ -52,8 +52,40 @@ st.markdown(
         }
 
         .block-container {
-            padding-top: 1rem;
+            padding-top: 1.6rem;
             padding-bottom: 1rem;
+        }
+
+        /* Barre de progression flottante en haut du site */
+        .barre-progression-fixe {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 28px;
+            background: #161616;
+            border-bottom: 1px solid #B3001B;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .barre-progression-remplissage {
+            height: 100%;
+            background: linear-gradient(90deg, #B3001B, #FF3B57);
+            transition: width 350ms ease;
+        }
+
+        .barre-progression-texte {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            line-height: 28px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            white-space: nowrap;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
         }
 
         section[data-testid="stSidebar"] {
@@ -283,111 +315,131 @@ with col_droite:
 
     st.markdown('<div class="bloc-formulaire">', unsafe_allow_html=True)
 
-    with st.form("formulaire_satisfaction"):
-        st.subheader("Questionnaire de satisfaction")
+    st.subheader("Questionnaire de satisfaction")
 
-        q1_canal = st.radio(
-            "1) Comment avez-vous connu l'événement ?",
-            [
-                "Réseaux sociaux",
-                "Bouche-a-oreille",
-                "Association",
-                "Partenaire",
-                "Presse / Media",
-            ],
-            index=None,
-            horizontal=True,
-        )
+    q1_canal = st.radio(
+        "1) Comment avez-vous connu l'événement ?",
+        [
+            "Réseaux sociaux",
+            "Bouche-a-oreille",
+            "Association",
+            "Partenaire",
+            "Presse / Media",
+        ],
+        index=None,
+        horizontal=True,
+        key="q1_canal",
+    )
 
-        q2_experience = st.radio(
-            "2) Globalement, comment évaluez-vous votre expérience ?",
-            [
-                "1 étoile",
-                "2 étoiles",
-                "3 étoiles",
-                "4 étoiles",
-                "5 étoiles",
-            ],
-            index=None,
-            horizontal=True,
-        )
+    q2_experience = st.radio(
+        "2) Globalement, comment évaluez-vous votre expérience ?",
+        [
+            "1 étoile",
+            "2 étoiles",
+            "3 étoiles",
+            "4 étoiles",
+            "5 étoiles",
+        ],
+        index=None,
+        horizontal=True,
+        key="q2_experience",
+    )
 
-        q3_temps_forts = st.radio(
-            "3) Quel temps fort avez-vous le plus apprécié ?",
-            [
-                "Exposition",
-                "Conférence-débat",
-                "Défilé",
-                "Danses traditionnelles",
-                "Découverte culinaire",
-                "Échanges avec les intervenants",
-            ],
-            index=None,
-            horizontal=True,
-        )
+    q3_temps_forts = st.radio(
+        "3) Quel temps fort avez-vous le plus apprécié ?",
+        [
+            "Exposition",
+            "Conférence-débat",
+            "Défilé",
+            "Danses traditionnelles",
+            "Découverte culinaire",
+            "Échanges avec les intervenants",
+        ],
+        index=None,
+        horizontal=True,
+        key="q3_temps_forts",
+    )
 
-        q4_apprentissage = st.radio(
-            "4) Pensez-vous avoir découvert ou appris de nouvelles choses sur les textiles africains ?",
-            ["Oui, beaucoup", "Oui, un peu", "Pas vraiment", "Pas du tout"],
-            index=None,
-            horizontal=True,
-        )
+    q4_apprentissage = st.radio(
+        "4) Pensez-vous avoir découvert ou appris de nouvelles choses sur les textiles africains ?",
+        ["Oui, beaucoup", "Oui, un peu", "Pas vraiment", "Pas du tout"],
+        index=None,
+        horizontal=True,
+        key="q4_apprentissage",
+    )
 
-        q5_regard = st.radio(
-            "5) Après cet événement, portez-vous un regard différent sur les tissus traditionnels africains ?",
-            ["Oui", "Non", "Je ne sais pas"],
-            index=None,
-            horizontal=True,
-        )
+    q5_regard = st.radio(
+        "5) Après cet événement, portez-vous un regard différent sur les tissus traditionnels africains ?",
+        ["Oui", "Non", "Je ne sais pas"],
+        index=None,
+        horizontal=True,
+        key="q5_regard",
+    )
 
-        q6_valorisation = st.radio(
-            "6) Selon vous, l'événement a-t-il permis de mieux valoriser le patrimoine culturel béninois et africain ?",
-            ["Tout à fait", "Plutôt oui", "Plutôt non", "Pas du tout"],
-            index=None,
-            horizontal=True,
-        )
+    q6_valorisation = st.radio(
+        "6) Selon vous, l'événement a-t-il permis de mieux valoriser le patrimoine culturel béninois et africain ?",
+        ["Tout à fait", "Plutôt oui", "Plutôt non", "Pas du tout"],
+        index=None,
+        horizontal=True,
+        key="q6_valorisation",
+    )
 
-        q7_recommandation = st.radio(
-            "7) Recommanderiez-vous cet événement à votre entourage ?",
-            ["Oui", "Non"],
-            index=None,
-            horizontal=True,
-        )
+    q7_recommandation = st.radio(
+        "7) Recommanderiez-vous cet événement à votre entourage ?",
+        ["Oui", "Non"],
+        index=None,
+        horizontal=True,
+        key="q7_recommandation",
+    )
 
-        q8_suggestions = st.radio(
-            "8) Avez-vous des suggestions pour une prochaine édition ?",
-            [
-                "Ateliers pratiques",
-                "Plus de temps d'échanges",
-                "Programme sur plusieurs jours",
-                "Davantage d'exposants",
-                "Aucune suggestion",
-            ],
-            index=None,
-            horizontal=True,
-        )
+    q8_suggestions = st.radio(
+        "8) Avez-vous des suggestions pour une prochaine édition ?",
+        [
+            "Ateliers pratiques",
+            "Plus de temps d'échanges",
+            "Programme sur plusieurs jours",
+            "Davantage d'exposants",
+            "Aucune suggestion",
+        ],
+        index=None,
+        horizontal=True,
+        key="q8_suggestions",
+    )
 
-        consentement = st.checkbox(
-            "J'accepte que mes réponses soient utilisées de manière anonyme pour améliorer l'événement.",
-            value=True,
-        )
+    reponses_principales = [
+        q1_canal,
+        q2_experience,
+        q3_temps_forts,
+        q4_apprentissage,
+        q5_regard,
+        q6_valorisation,
+        q7_recommandation,
+        q8_suggestions,
+    ]
+    nb_repondu = sum(1 for reponse in reponses_principales if reponse is not None)
+    nb_total = len(reponses_principales)
+    progression = round(nb_repondu / nb_total * 100)
 
-        soumis = st.form_submit_button("Envoyer mon avis")
+    st.markdown(
+        f"""
+        <div class="barre-progression-fixe">
+            <div class="barre-progression-remplissage" style="width: {progression}%;"></div>
+            <span class="barre-progression-texte">Progression : {nb_repondu}/{nb_total} questions ({progression} %)</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    consentement = st.checkbox(
+        "J'accepte que mes réponses soient utilisées de manière anonyme pour améliorer l'événement.",
+        value=True,
+    )
+
+    soumis = st.button("Envoyer mon avis")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
     if soumis:
-        reponses_principales = [
-            q1_canal,
-            q2_experience,
-            q3_temps_forts,
-            q4_apprentissage,
-            q5_regard,
-            q6_valorisation,
-            q7_recommandation,
-            q8_suggestions,
-        ]
-
         if any(reponse is None for reponse in reponses_principales):
             st.error("Merci de répondre à toutes les questions avant l'envoi.")
         elif not consentement:
