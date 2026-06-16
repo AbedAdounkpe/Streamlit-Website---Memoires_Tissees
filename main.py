@@ -1,5 +1,4 @@
 import csv
-import io
 import base64
 import mimetypes
 from pathlib import Path
@@ -430,41 +429,29 @@ with col_droite:
         unsafe_allow_html=True,
     )
 
-    consentement = st.checkbox(
-        "J'accepte que mes réponses soient utilisées de manière anonyme pour améliorer l'événement.",
-        value=True,
-    )
-
     soumis = st.button("Envoyer mon avis")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
     if soumis:
-        if any(reponse is None for reponse in reponses_principales):
-            st.error("Merci de répondre à toutes les questions avant l'envoi.")
-        elif not consentement:
-            st.error("Merci d'accepter l'utilisation anonyme des réponses pour valider l'envoi.")
+        questions_manquantes = [
+            index + 1
+            for index, reponse in enumerate(reponses_principales)
+            if reponse is None
+        ]
+        if questions_manquantes:
+            if len(questions_manquantes) == 1:
+                liste_manquantes = str(questions_manquantes[0])
+                st.error(f"Merci de répondre à la question : {liste_manquantes}.")
+            else:
+                liste_manquantes = (
+                    ", ".join(str(numero) for numero in questions_manquantes[:-1])
+                    + " et "
+                    + str(questions_manquantes[-1])
+                )
+                st.error(f"Merci de répondre aux questions : {liste_manquantes}.")
         else:
-            score_mapping = {
-                "1 étoile": 1,
-                "2 étoiles": 2,
-                "3 étoiles": 3,
-                "4 étoiles": 4,
-                "5 étoiles": 5,
-            }
-            score_numerique = score_mapping.get(q2_experience)
-
             st.success("Merci ! Votre avis a bien été enregistré.")
-            if score_numerique is not None:
-                st.metric("Évaluation globale", f"{score_numerique} / 5")
-                st.progress(score_numerique / 5)
-            else:
-                st.info("Évaluation globale personnalisée enregistrée.")
-
-            if score_numerique is not None and score_numerique >= 4:
-                st.info("Merci pour votre retour positif. Vos suggestions nous aideront à faire encore mieux.")
-            else:
-                st.warning("Merci pour votre sincérité. Nous allons prioriser les points d'amélioration cités.")
 
             donnees = {
                 "horodatage": datetime.now().isoformat(timespec="seconds"),
@@ -476,21 +463,19 @@ with col_droite:
                 "q6_valorisation_patrimoine": q6_valorisation,
                 "q7_recommandation": q7_recommandation,
                 "q8_suggestions": q8_suggestions,
-                "consentement": consentement,
-                "score_global_5": score_numerique if score_numerique is not None else "Personnalise",
-                "score_global_100": round(score_numerique / 5 * 100, 1) if score_numerique is not None else "N/A",
             }
 
-            tampon = io.StringIO()
-            writer = csv.DictWriter(tampon, fieldnames=list(donnees.keys()))
-            writer.writeheader()
-            writer.writerow(donnees)
+            fichier_reponses = Path("reponses") / "reponses_satisfaction.csv"
+            fichier_reponses.parent.mkdir(parents=True, exist_ok=True)
+            fichier_existe = fichier_reponses.exists()
+            with fichier_reponses.open("a", newline="", encoding="utf-8-sig") as flux:
+                writer = csv.DictWriter(flux, fieldnames=list(donnees.keys()))
+                if not fichier_existe:
+                    writer.writeheader()
+                writer.writerow(donnees)
 
-            st.download_button(
-                label="Télécharger ma réponse (CSV)",
-                data=tampon.getvalue().encode("utf-8"),
-                file_name="satisfaction_tissus_afrique_2026.csv",
-                mime="text/csv",
+            st.caption(
+                f"Réponse enregistrée automatiquement dans « {fichier_reponses.as_posix()} »."
             )
 
     st.caption(

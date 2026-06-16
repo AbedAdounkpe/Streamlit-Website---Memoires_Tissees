@@ -1,0 +1,19 @@
+# Réponses collectées (données utilisateurs - ne pas committer)
+reponses/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
