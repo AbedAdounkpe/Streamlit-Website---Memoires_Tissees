@@ -420,45 +420,12 @@ with col_droite:
         key="q5_regard",
     )
 
-    q6_valorisation = st.radio(
-        "6) Selon vous, l'événement a-t-il permis de mieux valoriser le patrimoine culturel béninois et africain ?",
-        ["Tout à fait", "Plutôt oui", "Plutôt non", "Pas du tout"],
-        index=None,
-        horizontal=True,
-        key="q6_valorisation",
-    )
-
-    q7_recommandation = st.radio(
-        "7) Recommanderiez-vous cet événement à votre entourage ?",
-        ["Oui", "Non"],
-        index=None,
-        horizontal=True,
-        key="q7_recommandation",
-    )
-
-    q8_suggestions = st.radio(
-        "8) Avez-vous des suggestions pour une prochaine édition ?",
-        [
-            "Ateliers pratiques",
-            "Plus de temps d'échanges",
-            "Programme sur plusieurs jours",
-            "Davantage d'exposants",
-            "Aucune suggestion",
-        ],
-        index=None,
-        horizontal=True,
-        key="q8_suggestions",
-    )
-
     reponses_principales = [
         q1_canal,
         q2_experience,
         q3_temps_forts,
         q4_apprentissage,
         q5_regard,
-        q6_valorisation,
-        q7_recommandation,
-        q8_suggestions,
     ]
     nb_repondu = sum(1 for reponse in reponses_principales if reponse is not None)
     nb_total = len(reponses_principales)
@@ -505,9 +472,6 @@ with col_droite:
                 "q3_temps_forts": q3_temps_forts,
                 "q4_apprentissage_textiles": q4_apprentissage,
                 "q5_regard_different": q5_regard,
-                "q6_valorisation_patrimoine": q6_valorisation,
-                "q7_recommandation": q7_recommandation,
-                "q8_suggestions": q8_suggestions,
             }
 
             if not enregistrer_dans_google_sheets(donnees):
