@@ -1,6 +1,9 @@
 # Réponses collectées (données utilisateurs - ne pas committer)
 reponses/
 
+# Liste des destinataires de l'email de rappel (données personnelles)
+destinataires.txt
+
 # Python
 __pycache__/
 *.py[cod]
