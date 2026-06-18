@@ -11,6 +11,7 @@ env/
 
 # Streamlit
 .streamlit/secrets.toml
+.streamlit/secrets.toml.example
 
 # OS / éditeurs
 .DS_Store
